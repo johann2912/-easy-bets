@@ -1,6 +1,7 @@
 const errorMessager = {
     user: {
-        notFoundUsers: 'Not found search users',
+        notFoundUsers: 'Not found search users.',
+        userExist: 'Already user exists.',
     }
 };
 
