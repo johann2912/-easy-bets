@@ -8,6 +8,12 @@ class UserController {
 
     allUsers = async (req, res, next) => {
         try {
+            const { document_number } = req.params;
+            const user = await this.userService.userByDocumentNumber(document_number);
+            if(user.user_type !== 0) throw errors.functions.generateStandard(
+                errors.types.BAD_REQUEST,
+                errors.messages.user.userNotAdmin,
+            );
             const dataReturn = await this.userService.allUsers()
             if(!dataReturn.length) throw errors.functions.generateStandard(
                 errors.types.NOT_FOUND,
@@ -20,6 +26,50 @@ class UserController {
         }
     };
 
+    userById = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const dataReturn = await this.userService.userById(id);
+    
+            res.json(dataReturn)
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    userByDocumentNumber = async (req, res, next) => {
+        try {
+            const { document_number } = req.params;
+            const dataReturn = await this.userService.userByDocumentNumber(document_number);
+    
+            res.json(dataReturn)
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    userByEmail = async (req, res, next) => {
+        try {
+            const { email } = req.params;
+            const dataReturn = await this.userService.userByEmail(email);
+    
+            res.json(dataReturn)
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    loginUser = async(req, res, next) => {
+        try {
+            const { email, password } = req.params;
+            const dataReturn = await this.userService.login(email, password);
+    
+            res.json(dataReturn)
+        } catch (error) {
+            next(error);
+        }
+    }
+
     createUser = async (req, res, next) => {
         try { 
             const dataReturn = await this.userService.createUser(req.body)
@@ -28,6 +78,31 @@ class UserController {
             next(error);
         }
     };
+
+    updateUser = async (req, res, next) => {
+        try { 
+            const { document_number } = req.params;
+            const dataReturn = await this.userService.updateUser(
+                document_number,
+                req.body
+            );
+            
+            res.json(dataReturn);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    deleteUser = async (req, res, next) => {
+        try { 
+            const { document_number } = req.params;
+            const dataReturn = await this.userService.deleteUser(document_number)
+
+            res.json(dataReturn);
+        } catch (error) {
+            next(error);
+        }
+    }
 };
 
 module.exports = UserController;
