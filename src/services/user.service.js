@@ -1,5 +1,6 @@
 const { User } = require('../models/index');
 const errors = require('../errors');
+const bcrypt = require('bcryptjs');
 
 class UserService {
     async allUsers(){
@@ -15,6 +16,10 @@ class UserService {
             errors.types.FORMAT_ERROR,
             errors.messages.user.userExist,
         );
+        /**
+         * encrypt user password
+         */
+        data.password = bcrypt.hashSync(data.password, 10);
         const user = await User.create(data);
         const { password, ...userData } = user.dataValues;
 
