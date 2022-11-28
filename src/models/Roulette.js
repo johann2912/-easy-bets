@@ -8,10 +8,10 @@ const Roulette = db.define("Roulette", {
         autoIncrement: true,
     },
     name: { type: DataTypes.STRING(500), allowNull: false, unique: true },
-    minimum_bet_balance: { type: DataTypes.STRING(500), allowNull: false },
+    minimum_bet_balance: { type: DataTypes.FLOAT, allowNull: false },
     number_min: { type: DataTypes.INTEGER, allowNull: false },
     number_max: { type: DataTypes.INTEGER, allowNull: false },
-    quota: { type: DataTypes.FLOAT, allowNull: false },
+    quota: { type: DataTypes.INTEGER, allowNull: false },
 }, {
     timestamps: false,
 });

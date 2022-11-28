@@ -3,6 +3,7 @@ const errors = require('../errors');
 const bcrypt = require('bcryptjs');
 
 class UserService {
+
     async allUsers(){
         const users = await User.findAll();
         return users;

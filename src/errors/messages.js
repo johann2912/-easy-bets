@@ -5,6 +5,11 @@ const errorMessager = {
         userExist: 'Already user exists.',
         userNotAdmin: 'The user is not allowed to perform this action.',
         userNotCredentials: 'Error with credentials',
+    },
+    roullete: {
+        notFoundRoulettes: 'Not found search roulttes',
+        notFoundRoulette: 'Not found roulette',
+        rouletteExist: 'Already roulette exist',
     }
 };
 
