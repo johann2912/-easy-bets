@@ -3,11 +3,11 @@ const { ResultRoulette } = require('./ResultRoulette');
 const { User } = require("./User");
 const { HistoryBets } = require("./historyBets");
 
-Roulette.belongsTo(ResultRoulette, { 
+ResultRoulette.belongsTo(Roulette, { 
     foreignKey: "roulette_id",
     targetId: 'id', 
 });
-ResultRoulette.hasMany(Roulette, { 
+Roulette.hasMany(ResultRoulette, { 
     foreignKey: "roulette_id",
     sourceKey: 'id' 
 });

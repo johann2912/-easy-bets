@@ -13,7 +13,7 @@ const User = db.define("User", {
     email: { type: DataTypes.STRING, allowNull: false, unique: true},
     password: { type: DataTypes.INTEGER, allowNull: false },
     balance: { type: DataTypes.FLOAT, allowNull: true, defaultValue: 0 },
-    user_type: { type: DataTypes.TINYIN, allowNull: false },
+    user_type: { type: DataTypes.INTEGER, allowNull: false },
     status: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
 }, {
     timestamps: false,
