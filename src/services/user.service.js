@@ -75,6 +75,24 @@ class UserService {
         };
     };
 
+    async myBets(user){
+        const bets = await HistoryBets.findAll({
+            include: [
+                {
+                   model: User
+                },
+                {
+                    model: Roulette
+                }
+            ],
+            where:{
+                user_id: user.id
+            }
+        });
+
+        return bets;
+    };
+
     async createUser(data){
         const existUser = await User.findOne({
             where: {

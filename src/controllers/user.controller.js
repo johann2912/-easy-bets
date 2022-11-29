@@ -26,6 +26,26 @@ class UserController {
         }
     };
 
+    myBets = async (req, res, next) => {
+        try {
+            const { document_number } = req.params;
+            const user = await this.userService.userByDocumentNumber(document_number);
+            if(!user) throw errors.functions.generateStandard(
+                errors.types.BAD_REQUEST,
+                errors.messages.user.notFoundUser,
+            );
+            const dataReturn = await this.userService.myBets(user);
+            if(!dataReturn.length) throw errors.functions.generateStandard(
+                errors.types.NOT_FOUND,
+                errors.messages.user.notFoundUsers,
+            );
+
+            res.json(dataReturn);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     userById = async (req, res, next) => {
         try {
             const { id } = req.params;

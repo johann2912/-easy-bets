@@ -8,6 +8,7 @@ const controller = new UserController();
 
 router.get('/:id', controller.userById);
 router.get('/all/:document_number', controller.allUsers);
+router.get('/my-bets/:document_number', controller.myBets);
 router.get('/document_number/:document_number', controller.userByDocumentNumber);
 router.get('/email/:email', controller.userByEmail);
 router.get('/login/:email/:password', controller.loginUser);
