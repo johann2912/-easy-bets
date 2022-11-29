@@ -11,7 +11,9 @@ class UserService {
 
     async userById(id){
         const user = await User.findOne({
-            id
+            where: {
+                id
+            }
         });
         if(!user) throw errors.functions.generateStandard(
             errors.types.NOT_FOUND,
@@ -24,7 +26,9 @@ class UserService {
 
     async userByDocumentNumber(document_number){
         const user = await User.findOne({
-            document_number
+            where: {
+                document_number
+            }
         });
         if(!user) throw errors.functions.generateStandard(
             errors.types.NOT_FOUND,
@@ -37,7 +41,9 @@ class UserService {
 
     async userByEmail(email){
         const user = await User.findOne({
-            email
+            where: {
+                email
+            }
         });
         if(!user) throw errors.functions.generateStandard(
             errors.types.NOT_FOUND,
@@ -50,7 +56,9 @@ class UserService {
 
     async login(email, passwordEntry){
         const user = await User.findOne({
-            email
+            where: {
+                email
+            }
         });
         const { password, ...userData } = user.dataValues
         const comparePassword = bcrypt.compareSync(
@@ -69,7 +77,9 @@ class UserService {
 
     async createUser(data){
         const existUser = await User.findOne({
-            document_number: data.document_number
+            where: {
+                document_number: data.document_number
+            }
         });
         if(existUser) throw errors.functions.generateStandard(
             errors.types.FORMAT_ERROR,
@@ -86,7 +96,11 @@ class UserService {
     };
 
     async updateUser(document_number, userData){
-        const user = await User.findOne({ document_number });
+        const user = await User.findOne({ 
+            where: {
+                document_number
+            } 
+        });
         const { user_type } = user.dataValues
         if(user_type !== 0) throw errors.functions.generateStandard(
             errors.types.BAD_REQUEST,
@@ -97,6 +111,23 @@ class UserService {
         if(userData.document_number) user.document_number = userData.document_number;   
         if(userData.email) user.email = userData.email;
         if(userData.user_type) user.user_type = userData.user_type;  
+        const userUpdate = await user.save();
+        
+        return userUpdate;
+    };
+
+    async acquireCredit(document_number, userData){
+        const user = await User.findOne({ 
+            where: {
+                document_number
+            } 
+        });
+        const { user_type } = user.dataValues
+        if(user_type !== 1) throw errors.functions.generateStandard(
+            errors.types.BAD_REQUEST,
+            errors.messages.user.userNotClient,
+        );
+        if(userData.balance) user.balance = userData.balance;
         const userUpdate = await user.save();
         
         return userUpdate;

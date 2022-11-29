@@ -91,7 +91,21 @@ class UserController {
         } catch (error) {
             next(error);
         }
-    }
+    };
+
+    acquireCredit = async (req, res, next) => {
+        try { 
+            const { document_number } = req.params;
+            const dataReturn = await this.userService.acquireCredit(
+                document_number,
+                req.body
+            );
+            
+            res.json(dataReturn);
+        } catch (error) {
+            next(error);
+        }
+    };
 
     deleteUser = async (req, res, next) => {
         try { 
@@ -102,7 +116,7 @@ class UserController {
         } catch (error) {
             next(error);
         }
-    }
+    };
 };
 
 module.exports = UserController;

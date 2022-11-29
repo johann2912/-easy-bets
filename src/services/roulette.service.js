@@ -1,4 +1,4 @@
-const { Roulette } = require('../models/index');
+const { Roulette, ResultRoulette } = require('../models/index');
 const errors = require('../errors');
 
 class RouletteService {
@@ -14,7 +14,6 @@ class RouletteService {
     };
 
     async rouletteById(id){
-        console.log(id)
         const roulette = await Roulette.findOne({
             where: {
                 id
@@ -68,6 +67,27 @@ class RouletteService {
         return 'roulette successfully deleted';
     };
 
+    async runRolutte(id){
+        const roulette = await this.rouletteById(id);
+        const { number_min, number_max, name } = roulette.dataValues;
+        /**
+         * generate result rulette
+         */
+        const result = Math.random()*(number_max - number_min) + number_min;
+        const resultSplit = `${result}`.split('.')[0];
+        const result_date = new Date().toISOString();
+        await ResultRoulette.create({
+            result: Number(resultSplit),
+            result_date,
+            roulette_id: roulette.dataValues.id,
+        })
+
+        return {
+            name_roulette: name,
+            result: Number(resultSplit),
+            date: result_date,
+        }
+    };
 };
 
 module.exports = RouletteService;

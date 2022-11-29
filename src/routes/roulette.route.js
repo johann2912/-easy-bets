@@ -5,6 +5,7 @@ const controller = new RouletteController();
 
 router.get('/all', controller.allRoulettes);
 router.get('/id/:id', controller.rouletteById);
+router.get('/running-game/:id', controller.runningRoulette);
 router.get('/name/:name', controller.roulettesByName);
 router.post('/create/:document_number_user', validateCreateRoulette, controller.create);
 router.delete('/delete/:roulette_id/:document_number_user', controller.deleteRoulette);

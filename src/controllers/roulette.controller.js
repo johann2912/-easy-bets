@@ -28,6 +28,17 @@ class RouletteController {
         }
     };
 
+    runningRoulette = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const roulette = await this.rouletteService.runRolutte(id);
+            
+            res.json(roulette);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     roulettesByName = async (req, res, next) => {
         try {
             const { name } = req.params;
