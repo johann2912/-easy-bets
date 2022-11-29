@@ -1,5 +1,6 @@
 const UserService = require('../services/user.service');
 const RouletteService = require('../services/roulette.service');
+const errors = require('../errors');
 
 class RouletteController { 
     constructor(){
@@ -12,6 +13,22 @@ class RouletteController {
             const roulettes = await this.rouletteService.allRoulettes();
             
             res.json(roulettes);
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    allResultRoulett = async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const roulette = await this.rouletteService.rouletteById(id);
+            const dataReturn = await this.rouletteService.allResultRoulettes(roulette.dataValues);
+            if(!dataReturn.length)throw errors.functions.generateStandard(
+                errors.types.NOT_FOUND,
+                errors.messages.roullete.notFoundHistory,
+            );
+            
+            res.json(dataReturn);
         } catch (error) {
             next(error);
         }

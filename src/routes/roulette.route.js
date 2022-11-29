@@ -4,6 +4,7 @@ const { validateCreateRoulette } = require('../middlewares/validations/createRou
 const controller = new RouletteController();
 
 router.get('/all', controller.allRoulettes);
+router.get('/all-results/:id', controller.allResultRoulett);
 router.get('/id/:id', controller.rouletteById);
 router.get('/running-game/:id', controller.runningRoulette);
 router.get('/name/:name', controller.roulettesByName);

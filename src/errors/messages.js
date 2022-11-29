@@ -14,7 +14,8 @@ const errorMessager = {
         notFoundRoulette: 'Not found roulette',
         rouletteExist: 'Already roulette exist',
         RouletteMinimumNumber: 'Minimum number exceeded',
-        RouletteMaximumNumber: 'Maximum number exceeded'
+        RouletteMaximumNumber: 'Maximum number exceeded',
+        notFoundHistory: 'Roulettes not found history results',
     },
 };
 

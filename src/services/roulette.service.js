@@ -1,4 +1,4 @@
-const { Roulette, ResultRoulette } = require('../models/index');
+const { Roulette, ResultRoulette, HistoryBets } = require('../models/index');
 const errors = require('../errors');
 
 class RouletteService {
@@ -11,6 +11,21 @@ class RouletteService {
         );
         
         return roulettes
+    };
+
+    async allResultRoulettes(roulette){
+        const history = await ResultRoulette.findAll({
+            include: [
+                {
+                    model: Roulette
+                }
+            ],
+            where:{
+                roulette_id: roulette.id
+            }
+        });
+
+        return history;
     };
 
     async rouletteById(id){
