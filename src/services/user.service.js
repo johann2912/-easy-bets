@@ -75,7 +75,7 @@ class UserService {
         };
     };
 
-    async myBets(user){
+    async myAllBets(user){
         const bets = await HistoryBets.findAll({
             include: [
                 {
@@ -87,6 +87,25 @@ class UserService {
             ],
             where:{
                 user_id: user.id
+            }
+        });
+
+        return bets;
+    };
+
+    async myBetById(id, user){
+        const bets = await HistoryBets.findOne({
+            include: [
+                {
+                   model: User
+                },
+                {
+                    model: Roulette
+                }
+            ],
+            where:{
+                id,
+                user_id: user.id,
             }
         });
 

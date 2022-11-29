@@ -7,6 +7,7 @@ const errorMessager = {
         userNotClient: 'The user is not allowed to perform this action.',
         userNotCredentials: 'Error with credentials',
         userInsufficientCredits: 'The user does not have the required amount of credits.',
+        userBetNotFound: 'The search bet does not found.'
     },
     roullete: {
         notFoundRoulettes: 'Not found search roulttes',
