@@ -6,12 +6,15 @@ const errorMessager = {
         userNotAdmin: 'The user is not allowed to perform this action.',
         userNotClient: 'The user is not allowed to perform this action.',
         userNotCredentials: 'Error with credentials',
+        userInsufficientCredits: 'The user does not have the required amount of credits.',
     },
     roullete: {
         notFoundRoulettes: 'Not found search roulttes',
         notFoundRoulette: 'Not found roulette',
         rouletteExist: 'Already roulette exist',
-    }
+        RouletteMinimumNumber: 'Minimum number exceeded',
+        RouletteMaximumNumber: 'Maximum number exceeded'
+    },
 };
 
 module.exports = errorMessager;

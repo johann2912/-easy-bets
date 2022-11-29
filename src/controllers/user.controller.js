@@ -107,6 +107,21 @@ class UserController {
         }
     };
 
+    bettingCredits = async (req, res, next) => {
+        try { 
+            const { document_number, id } = req.params;
+            const dataReturn = await this.userService.acquireCredit(
+                document_number,
+                id,
+                req.body
+            );
+            
+            res.json(dataReturn);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     deleteUser = async (req, res, next) => {
         try { 
             const { document_number } = req.params;

@@ -1,4 +1,4 @@
-const { User } = require('../models/index');
+const { User, HistoryBets, Roulette } = require('../models/index');
 const errors = require('../errors');
 const bcrypt = require('bcryptjs');
 
@@ -116,21 +116,57 @@ class UserService {
         return userUpdate;
     };
 
-    async acquireCredit(document_number, userData){
+    async acquireCredit(document_number, id, userDataBet){
         const user = await User.findOne({ 
             where: {
                 document_number
             } 
         });
-        const { user_type } = user.dataValues
+        const { user_type, balance } = user.dataValues
         if(user_type !== 1) throw errors.functions.generateStandard(
             errors.types.BAD_REQUEST,
             errors.messages.user.userNotClient,
         );
-        if(userData.balance) user.balance = userData.balance;
-        const userUpdate = await user.save();
+        const roulette = await Roulette.findOne({ 
+            where: {
+                id
+            } 
+        });
+        if(!roulette) throw errors.functions.generateStandard(
+            errors.types.BAD_REQUEST,
+            errors.messages.roullete.notFoundRoulette,
+        );
+        const { minimum_bet_balance, number_min,  number_max, quota} = roulette.dataValues;
+        if(balance < minimum_bet_balance) throw errors.functions.generateStandard(
+            errors.types.BAD_REQUEST,
+            errors.messages.user.userInsufficientCredits,
+        );
+        if(userDataBet.number_bet < number_min) throw errors.functions.generateStandard(
+            errors.types.BAD_REQUEST,
+            errors.messages.roullete.RouletteMinimumNumber,
+        );
+        if(userDataBet.number_bet > number_max) throw errors.functions.generateStandard(
+            errors.types.BAD_REQUEST,
+            errors.messages.roullete.RouletteMaximumNumber,
+        );
+
+        /**
+         * update new balance user
+         */
+        user.balance = Number(user.balance - userDataBet.balance_bet);
+        await user.save();
+
+        const bet = await HistoryBets.create({
+            date_bet: new Date().toISOString(),
+            balance_bet: Number(userDataBet.balance_bet),
+            potential_gain: Number(userDataBet.balance_bet * quota),
+            quota: Number(quota),
+            number_bet: Number(userDataBet.number_bet),
+            user_id: user.dataValues.id,
+            roulette_id: roulette.dataValues.id,
+        });
         
-        return userUpdate;
+        return bet;
     };
 
     async deleteUser(document_number){
