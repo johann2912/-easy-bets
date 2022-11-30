@@ -150,7 +150,7 @@ class UserController {
     bettingCredits = async (req, res, next) => {
         try { 
             const { document_number, id } = req.params;
-            const dataReturn = await this.userService.acquireCredit(
+            const dataReturn = await this.userService.bettingCredits(
                 document_number,
                 id,
                 req.body
