@@ -7,6 +7,6 @@ services:
       - MYSQL_USER=yard
       - MYSQL_PASSWORD=qwerty
     ports:
-      - 3308:3306
+      - 3306:3306
     volumes:
       - ./mysql_data:/var/lib/mysql
