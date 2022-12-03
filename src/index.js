@@ -10,7 +10,7 @@ const app = express();
 (async () => {
     try {
         await db.authenticate();
-        await db.sync({ force: false })
+        await db.sync({ force: true })
         console.log('connection with database successfully');
     } catch (error) {
         throw new Error(error);
